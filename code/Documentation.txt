@@ -1,0 +1,46 @@
+Data Acquisition - nEXO/DAQSoftware/LeCrunch
+
+fetch.py - Used for acquiring data from the scope. Saves under /data20/deap/scope, as a hdf5 file. Should be run as follows:
+	fetch.py (filename).hdf5 -n (# of events) -r (# of runs)
+
+
+Executable Files - nEXO/bin:
+
+PulseFinding.exe - Finds and fits pulses produced by scope, and produce .anat# files that can be processed by the Analysis executable files. References nEXO/RunInfo.txt to get saved file names. Run with up to 5 arguments:
+	1. int aRun -- Run number (as in RunInfo.txt)
+	2. int aTraining -- Fitting algorithm number, as from WaveformProcessor.cxx. Best results for aTraining = 7
+	3. int numPulsesFit -- The maximum number of pulses that can be found in a waveform for which fitting will be done. Otherwise it will be considered noise and eliminated.
+	4. bool noFit -- If this is true, PulseFinding.exe will not fit pulses but will just use the amps and times of the found peaks. This is done to speed up the process, but reduces the quality of the results across a short interval after the trigger.
+	5. int aNEventMax -- The maximum number of events that will be fit and pulse-found.
+
+Analysis.exe - For analysing the afterpulsing and delayed avalanching of photon-triggered events. Runs with one or two arguments, depending on whether multiple datasets are being combined or not. If so, the arguments are both run numbers. Else, the argument is the one run number.
+
+Dark Analysis.exe - For analysing the dark noise, afterpulsing, crosstalk, and pulse-shape properties of dark noise-triggered events. Runs with up to four parameters, the run number, the analysis mode, and two generic parameters.
+
+
+Code Files - nEXO/code: 
+
+RootDict.cxx, RootDict.h - Incomprehensible files generated automatically by ROOT CINT for doing all sorts of arcane ROOT CINT-y things.
+
+Linkdef.h - Unknown, perhaps same as previous.
+
+LecroyFile.cxx, LecroyFile.h, LecroyHdfFile.cxx, LecroyHdfFile.h, DataFile.h - Files used in processing the hdf5 files saved from the oscilloscope.
+
+Waveform.cxx, Waveform.h - The code for the class used to store data representing the waveform of a particular event.
+
+WaveformProcessor.cxx, WaveformProcessor.h - The class used in the processing of the waveforms. Includes functions for finding and fitting the peaks, and outputting the relavent calculated parameters.
+
+PulseFinding.cxx - The code for the class used to build PulseFinding.exe, which largely relies on the WaveformProcessor object to process the waveforms.
+
+ntpAnalysis.cxx, ntpAnalysis.h - Contain the code for the class used in generating the Analysis.exe file.
+
+Analysis.cxx - Contains the code for Analysis.exe for interfacing with the ntpAnalysis object.
+
+DarkNtpAnalysis.cxx, DarkNtpAnalysis.h - Contain the code for the class used in generating the DarkAnalysis.exe file.
+
+DarkAnalysis.cxx - Contains the code for DarkAnalysis.exe for interfacing with the DarkNtpAnalysis object.
+
+***Note: The Makefile in nEXO is set up such that changes to DarkNtpAnalysis.cxx/.h or DarkAnalysis.cxx should be implemented with "make DAN". Changes to other code files should be implemented with "make" followed by "make lib".
+
+
+
