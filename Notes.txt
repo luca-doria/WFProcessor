@@ -1,0 +1,15 @@
+
+Plase RunInfo.txt and DataFile in the base directory.
+
+First create a link in the /lib directory to the root Dict file:
+
+ln -s ../code/RootDict_rdict.pcm RootDict_rdict.pcm
+
+Then, from base directory:
+
+root -l
+
+and at the prompt:
+
+.L lib/libSipmAnalysis.so
+.x macros/EbyECheck.C(100,1,1,1,".")

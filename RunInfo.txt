@@ -1,0 +1,2 @@
+Run FileName WFAmpBining ampMin ampMax noise riseTimeSig fallTimeTau Time2Frac fallTime2Tau Pol MinChi2ForRefit
+100 TestRun.txt -1 -1 -1 32  1.41 582 0.013 4.3 -1 2.5
